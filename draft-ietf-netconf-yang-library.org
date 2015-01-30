@@ -1,0 +1,211 @@
+# -*- org -*-
+
+This document describes a YANG library, which provides information
+about all the YANG modules used by a device to represent
+management and protocol information.  A YANG library can be
+shared by multiple protocols within the same device.
+Simple caching mechanisms are needed to allow clients
+to minimize retrieval of this information.
+
+
+* Introduction
+
+There is a need for standard mechanisms to identify the
+YANG modules and submodules that are in use by
+each server that utilizes YANG-based data abstraction.
+If a large number of YANG modules are utilized by the server,
+then the YANG library information needed can be relatively
+large.  This information changes very infrequently, so
+it is important that clients be able to cache the YANG
+library and easily identify if their cache is out-of-date.
+
+YANG library information can be different on every server,
+and can change at run-time or across a server reboot.
+Typically firmware upgrades are required to change
+the set of YANG modules used by a server.
+
+The following information is needed by a client application
+(for each YANG module in the library)
+to fully utilize the YANG data modeling language.
+
+- name: The mandatory YANG module name MUST be
+unique within a YANG library. All modules and submodules share the same
+namespace, including modules used for deviations.
+
+- revision date: Each YANG module within the library
+MUST have a revision date.  This is derived from the most
+recent revision statement within the module or submodule.
+
+- submodule list: The name and revision date of each submodule
+used by main module MUST be identified.
+
+- feature list: The name of each YANG feature supported by the
+server MUST be identified.
+
+- deviation list: The name of each YANG module used for deviation
+statements SHOULD be identified.
+
+** Terminology
+
+The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in BCP
+14, ^RFC2119^.
+
+*** NETCONF
+
+The following terms are defined in ^RFC6241^:
+
+- client
+- server
+
+*** YANG
+
+The following terms are defined in ^RFC6020^:
+
+- module
+- submodule
+
+*** Terms
+
+The following terms are used within this document:
+
+- YANG library: a collection of YANG modules and submodules
+used by a server
+
+*** Tree Diagrams
+
+A simplified graphical representation of the data model is used in
+this document.  The meaning of the symbols in these
+diagrams is as follows:
+
+- Brackets "[" and "]" enclose list keys.
+- Abbreviations before data node names: "rw" means configuration
+ data (read-write) and "ro" state data (read-only).
+- Symbols after data node names: "?" means an optional node, "!" means
+ a presence container, and "*" denotes a list and leaf-list.
+- Parentheses enclose choice and case nodes, and case nodes are also
+marked with a colon (":").
+- Ellipsis ("...") stands for contents of subtrees that are not shown.
+
+* YANG Module Library
+
+The "ietf-yang-library" module provides information about
+the YANG library used by a server.
+
+YANG Tree Diagram for "ietf-yang-library" module:
+
+  +--ro modules
+      +--ro module-set-id?   string
+      +--ro module* [name revision]
+         +--ro name           yang:yang-identifier
+         +--ro revision       union
+         +--ro schema?        inet:uri
+         +--ro namespace      inet:uri
+         +--ro feature*       yang:yang-identifier
+         +--ro deviation*     yang:yang-identifier
+         +--ro conformance    boolean
+         +--ro submodules
+            +--ro submodule* [name revision]
+               +--ro name        yang:yang-identifier
+               +--ro revision    union
+               +--ro schema?     inet:uri
+
+** modules
+
+This mandatory container holds the identifiers
+for the YANG data model modules supported by the server.
+
+*** modules/module
+
+This mandatory list contains one entry
+for each YANG data model module supported by the server.
+There MUST be an instance of this list for every
+YANG module that is used by the server.
+
+** YANG Library Module @library-module@
+
+The "ietf-yang-library" module defines monitoring
+information for the YANG modules used by a RESTCONF server.
+
+The "ietf-yang-types" and "ietf-inet-types" modules from ^RFC6991^
+are used by this module for some type definitions.
+
+RFC Ed.: update the date below with the date of RFC publication and
+remove this note.
+
+!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2015-01-30.yang"
+
+* IANA Considerations @iana@
+
+** YANG Module Registry
+
+This document registers one URI in the IETF XML registry
+^RFC3688^. Following the format in RFC 3688, the following
+registration is requested to be made.
+
+     URI: urn:ietf:params:xml:ns:yang:ietf-yang-library
+     Registrant Contact: The NETMOD WG of the IETF.
+     XML: N/A, the requested URI is an XML namespace.
+
+This document registers one YANG module in the YANG Module Names
+registry ^RFC6020^.
+
+  name:         ietf-yang-library
+  namespace:    urn:ietf:params:xml:ns:yang:ietf-yang-library
+  prefix:       yanglib
+  // RFC Ed.: replace XXXX with RFC number and remove this note
+  reference:    RFC XXXX
+
+* Security Considerations
+
+This section provides security considerations for the information
+that is defined by the "ietf-yang-library" module.
+
+   [FIXME: follow template for sec. considerations]
+
+
+#* Acknowledgements
+#
+#The authors would like to thank the following people for
+#their contributions to this document:
+#
+
+
+*! start-appendix
+
+* Change Log
+
+    -- RFC Ed.: remove this section before publication.
+
+** draft-ietf-netconf-restconf-03 to 00
+
+- moved ietf-yang-library from RESTCONF draft to new draft
+
+* Open Issues
+
+    -- RFC Ed.: remove this section before publication.
+
+- conformance information: should 'conformance' leaf be
+removed and let real YANG conformance module augment as needed?
+
+- multi-protocol: should information be added to identify
+which protocols use each module or should each protocol
+define their own augmentations?
+
+The YANG Library issue tracker can be found here:
+
+   https://github.com/netconf-wg/yang-library/issues
+
+
+{{document:
+    name ;
+    ipr trust200902;
+    category std;
+    references yang-library-back.xml;
+    title "YANG Module Library";
+    abbreviation "YANG Library";
+    contributor "author:Andy Bierman:YumaWorks:andy@yumaworks.com";
+    contributor "author:Martin Bjorklund:Tail-f Systems:mbj@tail-f.com";
+    contributor "author:Kent Watsen:Juniper Networks:kwatsen@juniper.net";
+}}
