@@ -49,11 +49,11 @@ module ietf-yang-library {
   // note.
 
   // RFC Ed.: remove this note
-  // Note: extracted from draft-ietf-netconf-yang-library-00.txt
+  // Note: extracted from draft-ietf-netconf-yang-library-01.txt
 
   // RFC Ed.: update the date below with the date of RFC publication
   // and remove this note.
-  revision 2015-01-30 {
+  revision 2015-07-03 {
     description
       "Initial revision.";
     reference
@@ -93,6 +93,12 @@ module ietf-yang-library {
            An empty string is used if no revision statement
            is present in the YANG module or submodule.";
       }
+    }
+
+    grouping schema-leaf {
+      description
+        "Common schema leaf parameter for modules and submodules.";
+
       leaf schema {
         type inet:uri;
         description
@@ -111,6 +117,7 @@ module ietf-yang-library {
          supported by the server.";
 
       uses common-leafs;
+      uses schema-leaf;
 
       leaf namespace {
         type inet:uri;
@@ -124,25 +131,62 @@ module ietf-yang-library {
           "List of YANG feature names from this module that are
            supported by the server.";
       }
-      leaf-list deviation {
-        type yang:yang-identifier;
+      list deviation {
+        key "name revision";
         description
-          "List of YANG deviation module names used by this
-           server to modify the conformance of the module
-           associated with this entry.";
+          "List of YANG deviation module names and revisions
+           used by this server to modify the conformance of
+           the module associated with this entry.  Note that
+           the same module can be used for deviations for
+           multiple modules, so the same entry MAY appear
+           within multiple 'module' entries.
+
+           If the deviation module is available for download
+           from the server then a 'module' entry for that module
+           will exist, with the same name and revision values.";
+        uses common-leafs;
       }
       leaf conformance {
-        type boolean;
+        type enumeration {
+          enum implement {
+            description
+              "Indicates the server implements one or more
+               protocol-accessible objects defined in the
+               YANG module identified in this entry.
+
+               For YANG 1.1 modules, there MUST NOT be more than
+               one module entry for a particular module name.
+
+               For YANG 1.0 modules, there SHOULD NOT be more than
+               one module entry for a particular module name.";
+          }
+          enum import {
+            description
+              "Indicates the server imports reusable definitions from
+               the specified revision of the module, but does not
+               implement any protocol accessible objects from this
+               revision.
+
+               Multiple module entries for the same module name MAY
+               exist. This can occur if multiple modules import the
+               same module, but specify different revision-dates in
+               the import statements.
+
+               For import statements that do not specify a revision
+               date, the most recent revision in the library SHOULD
+               be used by the server.";
+          }
+          enum deviation {
+            description
+              "Indicates that the module identified by this entry
+               is only used for deviation statements.  No statements
+               are imported or implemented from the module.";
+          }
+        }
         mandatory true;
         description
-          "If 'true', then the server is claiming conformance to
-           the YANG module identified in this entry.
-
-           If 'false', then the server is not claiming any
-           conformance for the YANG module identified by this
-           entry. The module may be needed for reusable definitions
-           such as extensions, features, identifies, typedefs,
-           or groupings.";
+          "Indicates the type of conformance the server is claiming
+           for the YANG module identified by this entry.";
       }
       container submodules {
         description
@@ -155,6 +199,7 @@ module ietf-yang-library {
             "Each entry represents one submodule within the
              parent module.";
           uses common-leafs;
+          uses schema-leaf;
         }
       }
     } // list module

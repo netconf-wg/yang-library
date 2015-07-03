@@ -103,8 +103,10 @@ YANG Tree Diagram for "ietf-yang-library" module:
          +--ro schema?        inet:uri
          +--ro namespace      inet:uri
          +--ro feature*       yang:yang-identifier
-         +--ro deviation*     yang:yang-identifier
-         +--ro conformance    boolean
+         +--ro deviation* [name revision]
+         |  +--ro name        yang:yang-identifier
+         |  +--ro revision    union
+         +--ro conformance    enumeration
          +--ro submodules
             +--ro submodule* [name revision]
                +--ro name        yang:yang-identifier
@@ -134,7 +136,7 @@ are used by this module for some type definitions.
 RFC Ed.: update the date below with the date of RFC publication and
 remove this note.
 
-!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2015-01-30.yang"
+!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2015-07-03.yang"
 
 * IANA Considerations @iana@
 
@@ -159,11 +161,27 @@ registry ^RFC6020^.
 
 * Security Considerations
 
-This section provides security considerations for the information
-that is defined by the "ietf-yang-library" module.
+The YANG module defined in this memo is designed to be accessed
+via the NETCONF protocol ^RFC6241^.  The lowest NETCONF layer is
+the secure transport layer and the mandatory-to-implement secure
+transport is SSH ^RFC6242^.
 
-   [FIXME: follow template for sec. considerations]
+Some of the readable data nodes in this YANG module may be
+considered sensitive or vulnerable in some network environments.
+It is thus important to control read access (e.g., via get,
+get-config, or notification) to these data nodes.  These are the
+subtrees and data nodes and their sensitivity/vulnerability:
 
+- /modules/module: The module list used in a server
+implementation may help an attacker identify the server capabilities
+and server implementations with known bugs. Server vulnerabilities may be
+specific to particular modules, module revisions, module features,
+or even module deviations.  This information is included in each module entry.
+For example, if a particular operation on a particular data node is
+known to cause a server to crash or significantly degrade device performance,
+then the module list information will help an
+attacker identify server implementations with such a defect, in order
+to launch a denial of service attack on the device.
 
 #* Acknowledgements
 #
@@ -178,6 +196,11 @@ that is defined by the "ietf-yang-library" module.
 
     -- RFC Ed.: remove this section before publication.
 
+** 00 to 01
+
+- change conformance leaf to enumeration
+- filled in security considerations section
+
 ** draft-ietf-netconf-restconf-03 to 00
 
 - moved ietf-yang-library from RESTCONF draft to new draft
@@ -185,13 +208,6 @@ that is defined by the "ietf-yang-library" module.
 * Open Issues
 
     -- RFC Ed.: remove this section before publication.
-
-- conformance information: should 'conformance' leaf be
-removed and let real YANG conformance module augment as needed?
-
-- multi-protocol: should information be added to identify
-which protocols use each module or should each protocol
-define their own augmentations?
 
 The YANG Library issue tracker can be found here:
 
