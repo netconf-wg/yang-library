@@ -147,7 +147,9 @@ module ietf-yang-library {
 
            If the deviation module is available for download
            from the server then a 'module' entry for that module
-           will exist, with the same name and revision values.";
+           will exist, with the same name and revision values.
+           The 'conformance' value will be 'implement' for
+           the deviation module.";
         uses common-leafs;
       }
       leaf conformance {
@@ -156,7 +158,8 @@ module ietf-yang-library {
             description
               "Indicates the server implements one or more
                protocol-accessible objects defined in the
-               YANG module identified in this entry.
+               YANG module identified in this entry. This includes
+               deviation statements defined in the module.
 
                For YANG 1.1 modules, there MUST NOT be more than
                one module entry for a particular module name.
@@ -179,12 +182,6 @@ module ietf-yang-library {
                For import statements that do not specify a revision
                date, the most recent revision in the library SHOULD
                be used by the server.";
-          }
-          enum deviation {
-            description
-              "Indicates that the module identified by this entry
-               is only used for deviation statements.  No statements
-               are imported or implemented from the module.";
           }
         }
         mandatory true;
