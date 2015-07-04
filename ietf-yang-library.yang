@@ -2,8 +2,12 @@ module ietf-yang-library {
   namespace "urn:ietf:params:xml:ns:yang:ietf-yang-library";
   prefix "yanglib";
 
-  import ietf-yang-types { prefix yang; }
-  import ietf-inet-types { prefix inet; }
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import ietf-inet-types {
+    prefix inet;
+  }
 
   organization
     "IETF NETCONF (Network Configuration) Working Group";
@@ -65,8 +69,7 @@ module ietf-yang-library {
       pattern '\d{4}-\d{2}-\d{2}';
     }
     description
-      "Represents a specific date in YYYY-MM-DD format.
-       TBD: make pattern more precise to exclude leading zeros.";
+      "Represents a specific date in YYYY-MM-DD format.";
   }
 
   grouping module {
@@ -81,7 +84,8 @@ module ietf-yang-library {
 
       leaf name {
         type yang:yang-identifier;
-        description "The YANG module or submodule name.";
+        description
+          "The YANG module or submodule name.";
       }
       leaf revision {
         type union {

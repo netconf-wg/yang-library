@@ -118,6 +118,16 @@ YANG Tree Diagram for "ietf-yang-library" module:
 This mandatory container holds the identifiers
 for the YANG data model modules supported by the server.
 
+*** modules/module-set-id
+
+This mandatory leaf contains a unique implementation-specific
+identifier representing the current set of modules and submodules.
+This can for example be a checksum of all modules and submodules.
+
+This leaf allows a client to fetch the module list once, cache
+them, and only re-fetch them if the value of this leaf has been
+changed.
+
 *** modules/module
 
 This mandatory list contains one entry
