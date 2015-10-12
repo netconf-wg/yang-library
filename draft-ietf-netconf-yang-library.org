@@ -12,7 +12,7 @@ to minimize retrieval of this information.
 
 There is a need for standard mechanisms to identify the
 YANG modules and submodules that are in use by
-each server that utilizes YANG-based data abstraction.
+a server that utilizes YANG-based data abstractions.
 If a large number of YANG modules are utilized by the server,
 then the YANG library information needed can be relatively
 large.  This information changes very infrequently, so
@@ -21,23 +21,24 @@ library and easily identify if their cache is out-of-date.
 
 YANG library information can be different on every server,
 and can change at run-time or across a server reboot.
-Typically firmware upgrades are required to change
+Typically, a firmware upgrade is required to change
 the set of YANG modules used by a server.
 
 The following information is needed by a client application
 (for each YANG module in the library)
-to fully utilize the YANG data modeling language.
+to fully utilize the YANG data modeling language:
 
 - name: The mandatory YANG module name MUST be
-unique within a YANG library. All modules and submodules share the same
-namespace, including modules used for deviations.
+unique within a YANG library.
 
-- revision date: Each YANG module within the library
-MUST have a revision date.  This is derived from the most
-recent revision statement within the module or submodule.
+- revision: Each YANG module and submodule within the library
+has a revision.  This is derived from the most
+recent revision statement within the module or submodule.  If no such
+revision statement exists, the module's or submodule's revision is the
+empty string.
 
-- submodule list: The name and revision date of each submodule
-used by main module MUST be identified.
+- submodule list: The name and revision of each submodule
+used by the module MUST be identified.
 
 - feature list: The name of each YANG feature supported by the
 server MUST be identified.
@@ -96,7 +97,7 @@ the YANG library used by a server.
 YANG Tree Diagram for "ietf-yang-library" module:
 
   +--ro modules
-      +--ro module-set-id?   string
+      +--ro module-set-id    string
       +--ro module* [name revision]
          +--ro name           yang:yang-identifier
          +--ro revision       union
@@ -132,13 +133,13 @@ changed.
 
 This mandatory list contains one entry
 for each YANG data model module supported by the server.
-There MUST be an instance of this list for every
+There MUST be an entry in this list for every
 YANG module that is used by the server.
 
 ** YANG Library Module @library-module@
 
 The "ietf-yang-library" module defines monitoring
-information for the YANG modules used by a RESTCONF server.
+information for the YANG modules used by a server.
 
 The "ietf-yang-types" and "ietf-inet-types" modules from ^RFC6991^
 are used by this module for some type definitions.
