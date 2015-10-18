@@ -53,11 +53,11 @@ module ietf-yang-library {
   // note.
 
   // RFC Ed.: remove this note
-  // Note: extracted from draft-ietf-netconf-yang-library-01.txt
+  // Note: extracted from draft-ietf-netconf-yang-library-02.txt
 
   // RFC Ed.: update the date below with the date of RFC publication
   // and remove this note.
-  revision 2015-07-03 {
+  revision 2015-10-18 {
     description
       "Initial revision.";
     reference
@@ -163,6 +163,14 @@ module ietf-yang-library {
 
                For YANG 1.1 modules, there MUST NOT be more than
                one module entry for a particular module name.
+
+               For YANG 1.1 modules that use the import statement
+               without specifying a revision date, the implemented
+               revision of the imported module MUST be used.
+               If the imported module is not implemented, then
+               the most recent revision of the imported module
+               used by the server (and contained in the module list)
+               MUST be used.
 
                For YANG 1.0 modules, there SHOULD NOT be more than
                one module entry for a particular module name.";

@@ -147,7 +147,7 @@ are used by this module for some type definitions.
 RFC Ed.: update the date below with the date of RFC publication and
 remove this note.
 
-!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2015-07-03.yang"
+!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2015-10-18.yang"
 
 * IANA Considerations @iana@
 
@@ -194,11 +194,14 @@ then the module list information will help an
 attacker identify server implementations with such a defect, in order
 to launch a denial of service attack on the device.
 
-#* Acknowledgements
-#
-#The authors would like to thank the following people for
-#their contributions to this document:
-#
+* Acknowledgements
+
+Contributions to this material by Andy Bierman are based upon work
+supported by the The Space & Terrestrial Communications Directorate
+(S&TCD) under Contract No. W15P7T-13-C-A616. Any opinions, findings
+and conclusions or recommendations expressed in this material are
+those of the author(s) and do not necessarily reflect the views of
+The Space & Terrestrial Communications Directorate (S&TCD).
 
 
 *! start-appendix
@@ -206,6 +209,10 @@ to launch a denial of service attack on the device.
 * Change Log
 
     -- RFC Ed.: remove this section before publication.
+
+** 01 to 02
+
+- clarify 'implement' conformance for YANG 1.1 modules
 
 ** 00 to 01
 
