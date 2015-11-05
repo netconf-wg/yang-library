@@ -156,13 +156,14 @@ module ietf-yang-library {
         type enumeration {
           enum implement {
             description
-              "Indicates the server implements one or more
-               protocol-accessible objects defined in the
-               YANG module identified in this entry. This includes
-               deviation statements defined in the module.
+              "Indicates that the server implements one or more
+               protocol-accessible objects defined in the YANG module
+               identified in this entry.  This includes deviation
+               statements defined in the module.
 
-               For YANG 1.1 modules, there MUST NOT be more than
-               one module entry for a particular module name.
+               For YANG 1.1 modules, there MUST NOT be more than one
+               module entry with conformance 'implement' for a
+               particular module name.
 
                For YANG 1.1 modules that use the import statement
                without specifying a revision date, the implemented
@@ -177,8 +178,8 @@ module ietf-yang-library {
           }
           enum import {
             description
-              "Indicates the server imports reusable definitions from
-               the specified revision of the module, but does not
+              "Indicates that the server imports reusable definitions
+               from the specified revision of the module, but does not
                implement any protocol accessible objects from this
                revision.
 
