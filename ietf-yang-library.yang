@@ -72,7 +72,7 @@ module ietf-yang-library {
       "Represents a specific date in YYYY-MM-DD format.";
   }
 
-  grouping module {
+  grouping module-list {
     description
       "The module data structure is represented as a grouping
        so it can be reused in configuration or another monitoring
@@ -232,7 +232,7 @@ module ietf-yang-library {
          has changed.";
     }
 
-    uses module;
+    uses module-list;
   }
 
 }
