@@ -53,11 +53,11 @@ module ietf-yang-library {
   // note.
 
   // RFC Ed.: remove this note
-  // Note: extracted from draft-ietf-netconf-yang-library-02.txt
+  // Note: extracted from draft-ietf-netconf-yang-library-03.txt
 
   // RFC Ed.: update the date below with the date of RFC publication
   // and remove this note.
-  revision 2015-10-18 {
+  revision 2015-12-08 {
     description
       "Initial revision.";
     reference
@@ -70,6 +70,29 @@ module ietf-yang-library {
     }
     description
       "Represents a specific date in YYYY-MM-DD format.";
+  }
+
+  identity yang-protocol {
+    description
+     "The base for all YANG-based protocol identifiers.";
+  }
+
+  identity netconf1.0 {
+    base yang-protocol;
+    description "Version 1.0 of the NETCONF protocol";
+    reference "RFC 4271";
+  }
+
+  identity netconf1.1 {
+    base yang-protocol;
+    description "Version 1.1 of the NETCONF protocol";
+    reference "RFC 6241";
+  }
+
+  identity restconf1.0 {
+    base yang-protocol;
+    description "Version 1.0 of the RESTCONF protocol";
+    reference "draft-ietf-netconf-restconf";
   }
 
   grouping module-list {
@@ -179,9 +202,9 @@ module ietf-yang-library {
           enum import {
             description
               "Indicates that the server imports reusable definitions
-               from the specified revision of the module, but does not
-               implement any protocol accessible objects from this
-               revision.
+               from the specified revision of the module, but does
+               not implement any protocol accessible objects from
+               this revision.
 
                Multiple module entries for the same module name MAY
                exist. This can occur if multiple modules import the
@@ -212,6 +235,14 @@ module ietf-yang-library {
           uses schema-leaf;
         }
       }
+      leaf-list restricted-protocol {
+        type identityref {
+          base yang-protocol;
+        }
+        description
+         "Identifies a protocol that does not use the module
+          described by this module instance.";
+      }
     } // list module
   }  // grouping module
 
@@ -230,6 +261,17 @@ module ietf-yang-library {
          server MUST change the value of this leaf if the
          information represented by the 'module' list instances
          has changed.";
+    }
+
+    leaf-list yang-protocol {
+      type identityref {
+        base yang-protocol;
+      }
+      description
+       "Identifies a protocol that is using modules described
+        in this library.  There SHOULD be one instance of
+        this object for each protocol for each YANG-based
+        protocol using this library.";
     }
 
     uses module-list;

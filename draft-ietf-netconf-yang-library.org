@@ -96,23 +96,25 @@ the YANG library used by a server.
 
 YANG Tree Diagram for "ietf-yang-library" module:
 
-  +--ro modules
+   +--ro modules
       +--ro module-set-id    string
+      +--ro yang-protocol*   identityref
       +--ro module* [name revision]
-         +--ro name           yang:yang-identifier
-         +--ro revision       union
-         +--ro schema?        inet:uri
-         +--ro namespace      inet:uri
-         +--ro feature*       yang:yang-identifier
+         +--ro name                   yang:yang-identifier
+         +--ro revision               union
+         +--ro schema?                inet:uri
+         +--ro namespace              inet:uri
+         +--ro feature*               yang:yang-identifier
          +--ro deviation* [name revision]
          |  +--ro name        yang:yang-identifier
          |  +--ro revision    union
-         +--ro conformance    enumeration
+         +--ro conformance            enumeration
          +--ro submodules
-            +--ro submodule* [name revision]
-               +--ro name        yang:yang-identifier
-               +--ro revision    union
-               +--ro schema?     inet:uri
+         |  +--ro submodule* [name revision]
+         |     +--ro name        yang:yang-identifier
+         |     +--ro revision    union
+         |     +--ro schema?     inet:uri
+         +--ro restricted-protocol*   identityref
 
 ** modules
 
@@ -128,6 +130,17 @@ This can for example be a checksum of all modules and submodules.
 This leaf allows a client to fetch the module list once, cache
 them, and only re-fetch them if the value of this leaf has been
 changed.
+
+*** modules/yang-protocol
+
+This leaf-list identifies the YANG-based protocols that
+are using the YANG library. It allows an operator to be
+aware that multi-protocol conflicts could potentially
+occur on a managed device.
+
+A corresponding leaf-list called 'restricted-protocol' is
+defined in the module entry to identify modules that are not
+supported by one or more protocols.
 
 *** modules/module
 
@@ -210,16 +223,23 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 
     -- RFC Ed.: remove this section before publication.
 
-** 01 to 02
+** v02 to v03
+
+- added yang-identifier identity
+- added identities for NETCONF and RESTCONF protocols
+- added yang-library leaf-list to /modules
+- added restricted-protocol leaf-list to /modules/module
+
+** v01 to v02
 
 - clarify 'implement' conformance for YANG 1.1 modules
 
-** 00 to 01
+** v00 to v01
 
 - change conformance leaf to enumeration
 - filled in security considerations section
 
-** draft-ietf-netconf-restconf-03 to 00
+** draft-ietf-netconf-restconf-03 to v00
 
 - moved ietf-yang-library from RESTCONF draft to new draft
 
