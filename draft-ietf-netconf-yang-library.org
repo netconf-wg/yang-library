@@ -225,9 +225,9 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 
 ** v02 to v03
 
-- added yang-identifier identity
+- added yang-protocol identity
 - added identities for NETCONF and RESTCONF protocols
-- added yang-library leaf-list to /modules
+- added yang-protocol leaf-list to /modules
 - added restricted-protocol leaf-list to /modules/module
 
 ** v01 to v02
