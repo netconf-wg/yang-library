@@ -72,34 +72,6 @@ module ietf-yang-library {
       "Represents a specific date in YYYY-MM-DD format.";
   }
 
-  identity yang-protocol {
-    description
-     "The base for all YANG-based protocol identifiers.";
-  }
-
-  identity netconf-1.0 {
-    base yang-protocol;
-    description
-      "Version 1.0 of the NETCONF protocol.";
-    reference "RFC 4271";
-  }
-
-  identity netconf-1.1 {
-    base yang-protocol;
-    description
-      "Version 1.1 of the NETCONF protocol.";
-    reference "RFC 6241";
-  }
-
-  identity restconf-1.0 {
-    base yang-protocol;
-    description
-      "Version 1.0 of the RESTCONF protocol.";
-    // RFC Ed.: replace the draft name below with actual RFC number
-    // and remove this note.
-    reference "draft-ietf-netconf-restconf";
-  }
-
   grouping module-list {
     description
       "The module data structure is represented as a grouping
@@ -230,14 +202,6 @@ module ietf-yang-library {
           uses schema-leaf;
         }
       }
-      leaf-list restricted-protocol {
-        type identityref {
-          base yang-protocol;
-        }
-        description
-         "Identifies a protocol that does not use the module
-          described by this module instance.";
-      }
     } // list module
   }  // grouping module
 
@@ -256,17 +220,6 @@ module ietf-yang-library {
          server MUST change the value of this leaf if the
          information represented by the 'module' list instances
          has changed.";
-    }
-
-    leaf-list yang-protocol {
-      type identityref {
-        base yang-protocol;
-      }
-      description
-       "Identifies a protocol that is using modules described
-        in this library.  There SHOULD be one instance of
-        this object for each protocol for each YANG-based
-        protocol using this library.";
     }
 
     uses module-list;

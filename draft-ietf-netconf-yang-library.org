@@ -2,9 +2,8 @@
 
 This document describes a YANG library, which provides information
 about all the YANG modules used by a server to represent management
-and protocol information.  A YANG library can be shared by multiple
-protocols within the same device.  Simple caching mechanisms are
-provided to allow clients to minimize retrieval of this information.
+and protocol information.  Simple caching mechanisms are provided to
+allow clients to minimize retrieval of this information.
 
 * Introduction
 
@@ -21,6 +20,10 @@ YANG library information can be different on every server,
 and can change at run-time or across a server reboot.
 Typically, a firmware upgrade is required to change
 the set of YANG modules used by a server.
+
+If the server implements multiple protocols to access the
+YANG-defined data, each such protocol has it's own conceptual
+instantiation of the YANG library.
 
 The following information is needed by a client application
 (for each YANG module in the library)
@@ -89,7 +92,6 @@ YANG Tree Diagram for "ietf-yang-library" module:
 
    +--ro modules
       +--ro module-set-id    string
-      +--ro yang-protocol*   identityref
       +--ro module* [name revision]
          +--ro name                   yang:yang-identifier
          +--ro revision               union
@@ -101,11 +103,10 @@ YANG Tree Diagram for "ietf-yang-library" module:
          |  +--ro revision    union
          +--ro conformance            enumeration
          +--ro submodules
-         |  +--ro submodule* [name revision]
-         |     +--ro name        yang:yang-identifier
-         |     +--ro revision    union
-         |     +--ro schema?     inet:uri
-         +--ro restricted-protocol*   identityref
+            +--ro submodule* [name revision]
+               +--ro name        yang:yang-identifier
+               +--ro revision    union
+               +--ro schema?     inet:uri
 
 ** modules
 
@@ -121,17 +122,6 @@ This can for example be a checksum of all modules and submodules.
 This leaf allows a client to fetch the module list once, cache
 them, and only re-fetch them if the value of this leaf has been
 changed.
-
-*** modules/yang-protocol
-
-This leaf-list identifies the YANG-based protocols that
-are using the YANG library. It allows an operator to be
-aware that multi-protocol conflicts could potentially
-occur on a managed device.
-
-A corresponding leaf-list called 'restricted-protocol' is
-defined in the module entry to identify modules that are not
-supported by one or more protocols.
 
 *** modules/module
 
@@ -217,6 +207,8 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 ** v03 to v04
 
 - editorial changes after WGLC
+- one library instance per management protocol
+- removed protocol defintions
 - removed requirements on YANG 1.1 modules (text is moved to
   draft-ietf-netmod-rfc6020bis)
 
