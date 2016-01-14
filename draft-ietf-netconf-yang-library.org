@@ -1,18 +1,16 @@
 # -*- org -*-
 
 This document describes a YANG library, which provides information
-about all the YANG modules used by a device to represent
-management and protocol information.  A YANG library can be
-shared by multiple protocols within the same device.
-Simple caching mechanisms are needed to allow clients
-to minimize retrieval of this information.
-
+about all the YANG modules used by a server to represent management
+and protocol information.  A YANG library can be shared by multiple
+protocols within the same device.  Simple caching mechanisms are
+provided to allow clients to minimize retrieval of this information.
 
 * Introduction
 
 There is a need for standard mechanisms to identify the
 YANG modules and submodules that are in use by
-a server that utilizes YANG-based data abstractions.
+a server that implements YANG data models.
 If a large number of YANG modules are utilized by the server,
 then the YANG library information needed can be relatively
 large.  This information changes very infrequently, so
@@ -28,14 +26,13 @@ The following information is needed by a client application
 (for each YANG module in the library)
 to fully utilize the YANG data modeling language:
 
-- name: The mandatory YANG module name MUST be
-unique within a YANG library.
+- name: The name of the YANG module.
 
 - revision: Each YANG module and submodule within the library
 has a revision.  This is derived from the most
 recent revision statement within the module or submodule.  If no such
 revision statement exists, the module's or submodule's revision is the
-empty string.
+zero-length string.
 
 - submodule list: The name and revision of each submodule
 used by the module MUST be identified.
@@ -53,28 +50,22 @@ The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "OPTIONAL" in this document are to be interpreted as described in BCP
 14, ^RFC2119^.
 
-*** NETCONF
-
 The following terms are defined in ^RFC6241^:
 
 - client
 - server
-
-*** YANG
 
 The following terms are defined in ^RFC6020^:
 
 - module
 - submodule
 
-*** Terms
-
 The following terms are used within this document:
 
 - YANG library: a collection of YANG modules and submodules
 used by a server
 
-*** Tree Diagrams
+** Tree Diagrams
 
 A simplified graphical representation of the data model is used in
 this document.  The meaning of the symbols in these
@@ -222,6 +213,12 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 * Change Log
 
     -- RFC Ed.: remove this section before publication.
+
+** v03 to v04
+
+- editorial changes after WGLC
+- removed requirements on YANG 1.1 modules (text is moved to
+  draft-ietf-netmod-rfc6020bis)
 
 ** v02 to v03
 
