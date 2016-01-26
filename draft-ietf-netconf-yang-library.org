@@ -1,25 +1,23 @@
 # -*- org -*-
 
 This document describes a YANG library, which provides information
-about all the YANG modules used by a server to represent management
-and protocol information.  Simple caching mechanisms are provided to
-allow clients to minimize retrieval of this information.
+about all the YANG modules used by a network management server (e.g.,
+a Network Configuration Protocol (NETCONF) server).  Simple caching
+mechanisms are provided to allow clients to minimize retrieval of this
+information.
 
 * Introduction
 
-There is a need for standard mechanisms to identify the
-YANG modules and submodules that are in use by
-a server that implements YANG data models.
-If a large number of YANG modules are utilized by the server,
-then the YANG library information needed can be relatively
-large.  This information changes very infrequently, so
-it is important that clients be able to cache the YANG
-library and easily identify if their cache is out-of-date.
+There is a need for standard mechanisms to identify the YANG modules
+and submodules that are in use by a server that implements YANG data
+models.  If a large number of YANG modules are utilized by the server,
+then the YANG library contents needed can be relatively large.  This
+information changes very infrequently, so it is important that clients
+be able to cache the YANG library contents and easily identify whether
+their cache is out-of-date.
 
 YANG library information can be different on every server,
 and can change at run-time or across a server reboot.
-Typically, a firmware upgrade is required to change
-the set of YANG modules used by a server.
 
 If the server implements multiple protocols to access the
 YANG-defined data, each such protocol has it's own conceptual
@@ -44,7 +42,7 @@ used by the module MUST be identified.
 server MUST be identified.
 
 - deviation list: The name of each YANG module used for deviation
-statements SHOULD be identified.
+statements MUST be identified.
 
 ** Terminology
 
@@ -117,11 +115,25 @@ for the YANG data model modules supported by the server.
 
 This mandatory leaf contains a unique implementation-specific
 identifier representing the current set of modules and submodules.
-This can for example be a checksum of all modules and submodules.
+The value of this leaf MUST change whenever the set of modules and
+submodules in the YANG library changes.  There is no requirement that
+the same set always results in the same module-set-id value.
 
 This leaf allows a client to fetch the module list once, cache
-them, and only re-fetch them if the value of this leaf has been
+it, and only re-fetch it if the value of this leaf has been
 changed.
+
+If the value of this leaf changes, the server also generates a
+"yang-library-changed" notification, with the new value of
+"module-set-id".
+
+Note that for a NETCONF server that implements YANG 1.1
+^I-D.ietf-netmod-rfc6020bis^, a change of the "module-set-id" value
+results in a new value for the :yang-library capability defined in
+^I-D.ietf-netmod-rfc6020bis^.  Thus, if such a server implements
+NETCONF notifications ^RFC5277^, and the notification
+"netconf-capability-change" ^RFC6470^, a "netconf-capability-change"
+notification is generated whenever the "module-set-id" changes.
 
 *** modules/module
 
@@ -141,7 +153,7 @@ are used by this module for some type definitions.
 RFC Ed.: update the date below with the date of RFC publication and
 remove this note.
 
-!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2015-10-18.yang"
+!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2016-01-25.yang"
 
 * IANA Considerations @iana@
 
@@ -211,6 +223,7 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 - removed protocol defintions
 - removed requirements on YANG 1.1 modules (text is moved to
   draft-ietf-netmod-rfc6020bis)
+- added notification yang-library-change
 
 ** v02 to v03
 
@@ -245,7 +258,7 @@ The YANG Library issue tracker can be found here:
     name ;
     ipr trust200902;
     category std;
-    references yang-library-back.xml;
+    references back.xml;
     title "YANG Module Library";
     abbreviation "YANG Library";
     contributor "author:Andy Bierman:YumaWorks:andy@yumaworks.com";

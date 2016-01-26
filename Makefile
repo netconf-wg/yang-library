@@ -36,7 +36,7 @@ idnits: $(next).txt
 	$(idnits) $<
 
 clean:
-	-rm -f $(draft).txt $(draft).html index.html
+	-rm -f $(draft).txt $(draft).html index.html back.xml
 	-rm -f $(next).txt $(next).html
 	-rm -f $(draft)-[0-9][0-9].xml
 ifeq (.md,$(draft_type))
@@ -46,8 +46,13 @@ ifeq (.org,$(draft_type))
 	-rm -f $(draft).xml
 endif
 
+back.xml: back.xml.src
+	./mk-back $< > $@
+
 $(next).xml: $(draft).xml
 	sed -e"s/$(basename $<)-latest/$(basename $@)/" $< > $@
+
+$(draft).xml: back.xml
 
 .INTERMEDIATE: $(draft).xml
 %.xml: %.md

@@ -53,16 +53,20 @@ module ietf-yang-library {
   // note.
 
   // RFC Ed.: remove this note
-  // Note: extracted from draft-ietf-netconf-yang-library-03.txt
+  // Note: extracted from draft-ietf-netconf-yang-library-04.txt
 
   // RFC Ed.: update the date below with the date of RFC publication
   // and remove this note.
-  revision 2016-01-14 {
+  revision 2016-01-25 {
     description
       "Initial revision.";
     reference
       "RFC XXXX: YANG Module Library.";
   }
+
+  /*
+   * Typedefs
+   */
 
   typedef revision-identifier {
     type string {
@@ -71,6 +75,10 @@ module ietf-yang-library {
     description
       "Represents a specific date in YYYY-MM-DD format.";
   }
+
+  /*
+   * Groupings
+   */
 
   grouping module-list {
     description
@@ -146,9 +154,8 @@ module ietf-yang-library {
            multiple modules, so the same entry MAY appear
            within multiple 'module' entries.
 
-           If the deviation module is available for download
-           from the server then a 'module' entry for that module
-           will exist, with the same name and revision values.
+           The deviation module MUST be present in the 'module'
+           list, with the same name and revision values.
            The 'conformance' value will be 'implement' for
            the deviation module.";
         uses common-leafs;
@@ -202,9 +209,12 @@ module ietf-yang-library {
           uses schema-leaf;
         }
       }
-    } // list module
-  }  // grouping module
+    }
+  }
 
+  /*
+   * Operational state data nodes
+   */
 
   container modules {
     config false;
@@ -223,6 +233,26 @@ module ietf-yang-library {
     }
 
     uses module-list;
+  }
+
+  /*
+   * Notifications
+   */
+
+  notification yang-library-change {
+    description
+      "Generated when the set of modules and submodules supported
+       by the server has changed.";
+    leaf module-set-id {
+      type leafref {
+        path "/yanglib:modules/yanglib:module-set-id";
+      }
+      mandatory true;
+      description
+        "Contains the module-set-id value representing the
+         set of modules and submodules supported at the server at
+         the time the notification is generated.";
+    }
   }
 
 }
