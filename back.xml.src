@@ -14,11 +14,11 @@
 
   ietf-ref:RFC6991
 
-  ietf-ref:I-D.ietf-netmod-rfc6020bis
-
 </references>
 
 <references title="Informative References">
+
+  ietf-ref:I-D.ietf-netmod-rfc6020bis
 
   ietf-ref:RFC5277
 
