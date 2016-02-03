@@ -88,7 +88,7 @@ the YANG library used by a server.
 
 YANG Tree Diagram for "ietf-yang-library" module:
 
-   +--ro modules
+   +--ro modules-state
       +--ro module-set-id    string
       +--ro module* [name revision]
          +--ro name                   yang:yang-identifier
@@ -99,19 +99,19 @@ YANG Tree Diagram for "ietf-yang-library" module:
          +--ro deviation* [name revision]
          |  +--ro name        yang:yang-identifier
          |  +--ro revision    union
-         +--ro conformance            enumeration
+         +--ro conformance-type       enumeration
          +--ro submodules
             +--ro submodule* [name revision]
                +--ro name        yang:yang-identifier
                +--ro revision    union
                +--ro schema?     inet:uri
 
-** modules
+** modules-state
 
 This mandatory container holds the identifiers
 for the YANG data model modules supported by the server.
 
-*** modules/module-set-id
+*** modules-state/module-set-id
 
 This mandatory leaf contains a unique implementation-specific
 identifier representing the current set of modules and submodules.
@@ -135,7 +135,7 @@ NETCONF notifications ^RFC5277^, and the notification
 "netconf-capability-change" ^RFC6470^, a "netconf-capability-change"
 notification is generated whenever the "module-set-id" changes.
 
-*** modules/module
+*** modules-state/module
 
 This mandatory list contains one entry
 for each YANG data model module supported by the server.
@@ -153,7 +153,7 @@ are used by this module for some type definitions.
 RFC Ed.: update the date below with the date of RFC publication and
 remove this note.
 
-!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2016-01-25.yang"
+!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2016-02-01.yang"
 
 * IANA Considerations @iana@
 
@@ -181,7 +181,9 @@ registry ^RFC6020^.
 The YANG module defined in this memo is designed to be accessed
 via the NETCONF protocol ^RFC6241^.  The lowest NETCONF layer is
 the secure transport layer and the mandatory-to-implement secure
-transport is SSH ^RFC6242^.
+transport is SSH ^RFC6242^.  Authorization for access to specific
+portions of conceptual data and operations within this module
+is provided by the NETCONF access control model (NACM) ^RFC6536^.
 
 Some of the readable data nodes in this YANG module may be
 considered sensitive or vulnerable in some network environments.
@@ -189,7 +191,7 @@ It is thus important to control read access (e.g., via get,
 get-config, or notification) to these data nodes.  These are the
 subtrees and data nodes and their sensitivity/vulnerability:
 
-- /modules/module: The module list used in a server
+- /modules-state/module: The module list used in a server
 implementation may help an attacker identify the server capabilities
 and server implementations with known bugs. Server vulnerabilities may be
 specific to particular modules, module revisions, module features,
@@ -224,6 +226,8 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 - removed requirements on YANG 1.1 modules (text is moved to
   draft-ietf-netmod-rfc6020bis)
 - added notification yang-library-change
+- changed top-level node name from "modules" to "modules-state"
+- changed leaf "conformance" to "conformance-type"
 
 ** v02 to v03
 

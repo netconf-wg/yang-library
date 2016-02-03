@@ -57,7 +57,7 @@ module ietf-yang-library {
 
   // RFC Ed.: update the date below with the date of RFC publication
   // and remove this note.
-  revision 2016-01-25 {
+  revision 2016-02-01 {
     description
       "Initial revision.";
     reference
@@ -156,11 +156,11 @@ module ietf-yang-library {
 
            The deviation module MUST be present in the 'module'
            list, with the same name and revision values.
-           The 'conformance' value will be 'implement' for
+           The 'conformance-type' value will be 'implement' for
            the deviation module.";
         uses common-leafs;
       }
-      leaf conformance {
+      leaf conformance-type {
         type enumeration {
           enum implement {
             description
@@ -170,7 +170,7 @@ module ietf-yang-library {
                statements defined in the module.
 
                For YANG version 1.1 modules, there is at most one
-               module entry with conformance 'implement' for a
+               module entry with conformance type 'implement' for a
                particular module name, since YANG 1.1 requires that
                at most one revision of a module is implemented.
 
@@ -216,7 +216,7 @@ module ietf-yang-library {
    * Operational state data nodes
    */
 
-  container modules {
+  container modules-state {
     config false;
     description
       "Contains YANG module monitoring information.";
@@ -245,7 +245,7 @@ module ietf-yang-library {
        by the server has changed.";
     leaf module-set-id {
       type leafref {
-        path "/yanglib:modules/yanglib:module-set-id";
+        path "/yanglib:modules-state/yanglib:module-set-id";
       }
       mandatory true;
       description
