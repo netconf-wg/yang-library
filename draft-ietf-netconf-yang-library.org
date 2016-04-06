@@ -193,7 +193,12 @@ subtrees and data nodes and their sensitivity/vulnerability:
 
 - /modules-state/module: The module list used in a server
 implementation may help an attacker identify the server capabilities
-and server implementations with known bugs. Server vulnerabilities may be
+and server implementations with known bugs.
+Although some of this information may
+be available to all users via the NETCONF <hello> message (or similar
+messages in other management protocols), this YANG module potentially
+exposes additional details that could be of some assistance to an
+attacker. Server vulnerabilities may be
 specific to particular modules, module revisions, module features,
 or even module deviations.  This information is included in each module entry.
 For example, if a particular operation on a particular data node is
