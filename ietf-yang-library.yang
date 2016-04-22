@@ -53,11 +53,11 @@ module ietf-yang-library {
   // note.
 
   // RFC Ed.: remove this note
-  // Note: extracted from draft-ietf-netconf-yang-library-04.txt
+  // Note: extracted from draft-ietf-netconf-yang-library-05.txt
 
   // RFC Ed.: update the date below with the date of RFC publication
   // and remove this note.
-  revision 2016-02-01 {
+  revision 2016-04-09 {
     description
       "Initial revision.";
     reference
@@ -125,8 +125,8 @@ module ietf-yang-library {
     list module {
       key "name revision";
       description
-        "Each entry represents one module currently
-         supported by the server.";
+        "Each entry represents one revision of one module
+         currently supported by the server.";
 
       uses common-leafs;
       uses schema-leaf;

@@ -56,7 +56,7 @@ The following terms are defined in ^RFC6241^:
 - client
 - server
 
-The following terms are defined in ^RFC6020^:
+The following terms are defined in ^I-D.ietf-netmod-rfc6020bis^:
 
 - module
 - submodule
@@ -84,7 +84,9 @@ marked with a colon (":").
 * YANG Module Library
 
 The "ietf-yang-library" module provides information about
-the YANG library used by a server.
+the YANG library used by a server. This module is defined
+using YANG version 1, but it supports the description of YANG modules
+written in any revision of YANG.
 
 YANG Tree Diagram for "ietf-yang-library" module:
 
@@ -114,7 +116,8 @@ for the YANG data model modules supported by the server.
 *** modules-state/module-set-id
 
 This mandatory leaf contains a unique implementation-specific
-identifier representing the current set of modules and submodules.
+identifier representing the current set of modules and submodules
+on a specific server.
 The value of this leaf MUST change whenever the set of modules and
 submodules in the YANG library changes.  There is no requirement that
 the same set always results in the same module-set-id value.
@@ -124,7 +127,7 @@ it, and only re-fetch it if the value of this leaf has been
 changed.
 
 If the value of this leaf changes, the server also generates a
-"yang-library-changed" notification, with the new value of
+"yang-library-change" notification, with the new value of
 "module-set-id".
 
 Note that for a NETCONF server that implements YANG 1.1
@@ -139,8 +142,11 @@ notification is generated whenever the "module-set-id" changes.
 
 This mandatory list contains one entry
 for each YANG data model module supported by the server.
-There MUST be an entry in this list for every
-YANG module that is used by the server.
+There MUST be an entry in this list for each revision
+of each YANG module that is used by the server.
+It is possible for multiple revisions of the same module
+to be imported, in addition to an entry for the revision
+that is implemented by the server.
 
 ** YANG Library Module @library-module@
 
@@ -153,7 +159,7 @@ are used by this module for some type definitions.
 RFC Ed.: update the date below with the date of RFC publication and
 remove this note.
 
-!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2016-02-01.yang"
+!! include-figure ietf-yang-library.yang extract-to="ietf-yang-library@2016-04-09.yang"
 
 * IANA Considerations @iana@
 
@@ -223,11 +229,16 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 
     -- RFC Ed.: remove this section before publication.
 
+** v04 to v05
+
+- clarify security considerations per secdir review
+- clarifications for AD review
+
 ** v03 to v04
 
 - editorial changes after WGLC
 - one library instance per management protocol
-- removed protocol defintions
+- removed protocol definitions
 - removed requirements on YANG 1.1 modules (text is moved to
   draft-ietf-netmod-rfc6020bis)
 - added notification yang-library-change
