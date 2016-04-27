@@ -170,7 +170,7 @@ This document registers one URI in the IETF XML registry
 registration is requested to be made.
 
      URI: urn:ietf:params:xml:ns:yang:ietf-yang-library
-     Registrant Contact: The NETMOD WG of the IETF.
+     Registrant Contact: The NETCONF WG of the IETF.
      XML: N/A, the requested URI is an XML namespace.
 
 This document registers one YANG module in the YANG Module Names
