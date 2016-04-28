@@ -229,6 +229,10 @@ The Space & Terrestrial Communications Directorate (S&TCD).
 
     -- RFC Ed.: remove this section before publication.
 
+** v05 to v06
+
+- correct IANA instructions for module
+
 ** v04 to v05
 
 - clarify security considerations per secdir review
