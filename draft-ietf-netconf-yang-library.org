@@ -93,20 +93,19 @@ YANG Tree Diagram for "ietf-yang-library" module:
    +--ro modules-state
       +--ro module-set-id    string
       +--ro module* [name revision]
-         +--ro name                   yang:yang-identifier
-         +--ro revision               union
-         +--ro schema?                inet:uri
-         +--ro namespace              inet:uri
-         +--ro feature*               yang:yang-identifier
+         +--ro name                yang:yang-identifier
+         +--ro revision            union
+         +--ro schema?             inet:uri
+         +--ro namespace           inet:uri
+         +--ro feature*            yang:yang-identifier
          +--ro deviation* [name revision]
          |  +--ro name        yang:yang-identifier
          |  +--ro revision    union
-         +--ro conformance-type       enumeration
-         +--ro submodules
-            +--ro submodule* [name revision]
-               +--ro name        yang:yang-identifier
-               +--ro revision    union
-               +--ro schema?     inet:uri
+         +--ro conformance-type    enumeration
+         +--ro submodule* [name revision]
+            +--ro name        yang:yang-identifier
+            +--ro revision    union
+            +--ro schema?     inet:uri
 
 ** modules-state
 
